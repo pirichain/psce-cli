@@ -31,7 +31,8 @@ psce network add --name testnet --url https://testnet.pirichain.com
 psce network set testnet
 
 # Test your scenario
-psce test payment
+psce test payment -m init
+psce test token -m transfer -p "100,TZ123abc" -n testnet
 ```
 
 ## Commands
@@ -41,6 +42,22 @@ psce test payment
 ```bash
 # Create new workspace
 psce new <workspace-name>
+```
+
+### Testing
+
+```bash
+# Test scenario methods
+psce test <scenario> -m <method> [options]
+  -m, --method <method>    Method name to execute (required)
+  -p, --params <params>    Method parameters (comma-separated)
+  -n, --network <network>  Network name (uses current if not specified)
+  -a, --address <address>  Address name (uses current if not specified)
+
+# Examples
+psce test payment -m init
+psce test token -m transfer -p "100,TZ123abc"
+psce test nft -m mint -n mainnet -a wallet1
 ```
 
 ### Scenario Management
@@ -196,8 +213,9 @@ psce scenario add --name token --tags "token,erc20" --network https://testnet.pi
 psce scenario add --name nft --tags "nft,collectibles" --network https://mainnet.pirichain.com
 
 # Test scenarios
-psce test token
-psce test nft
+psce test token -m init
+psce test token -m transfer -p "100,TZ123abc"
+psce test nft -m mint -n mainnet -a wallet1
 ```
 
 ## Networks

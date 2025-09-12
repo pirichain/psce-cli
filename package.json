@@ -1,6 +1,6 @@
 {
   "name": "psce",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Pirichain Smart Contract Engine - CLI tool for blockchain development",
   "main": "bin/psce.js",
   "bin": {
