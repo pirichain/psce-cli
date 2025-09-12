@@ -1,6 +1,6 @@
 # PSCE CLI
 
-A command-line interface for **Pirichain Smart Contract Engine (PSCE)**. Create, manage, and test blockchain development workspaces with smart contract scenarios.
+A command-line interface for **Pirichain Smart Scenarios (PSCE)**. Create, manage, and test blockchain development workspaces with smart contract scenarios.
 
 ## Installation
 

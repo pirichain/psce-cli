@@ -11,9 +11,7 @@ const { registerTestCommand } = require("../commands/test");
 
 const program = new Command();
 
-program
-  .version("1.1.0")
-  .description("PSCE - Pirichain Smart Contract Engine CLI");
+program.version("1.1.1").description("PSCE - Pirichain Smart Scenarios CLI");
 
 // Register all commands
 registerNewCommand(program);

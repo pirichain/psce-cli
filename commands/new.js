@@ -21,7 +21,7 @@ function registerNewCommand(program) {
 
 async function createPsceWorkspace(projectName) {
   console.log(
-    chalk.blue.bold("🔗 Welcome to PSCE - Pirichain Smart Contract Engine")
+    chalk.blue.bold("🔗 Welcome to PSCE - Pirichain Smart Scenarios")
   );
   console.log(chalk.gray("Creating your blockchain development workspace..."));
   console.log();
@@ -166,7 +166,7 @@ async function createWorkspaceStructure(projectPath) {
 async function createReadme(projectPath, projectName) {
   const readmeContent = `# ${projectName}
 
-PSCE (Pirichain Smart Contract Engine) Workspace
+PSCE (Pirichain Smart Scenarios) Workspace
 
 ## Overview
 

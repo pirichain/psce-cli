@@ -7,7 +7,7 @@ function registerScenarioCommand(program) {
   const scenarioCommand = program
     .command("scenario")
     .alias("s")
-    .description("Scenario management for Pirichain Smart Contract Engine");
+    .description("Scenario management for Pirichain Smart Scenarios");
 
   scenarioCommand
     .command("add")
