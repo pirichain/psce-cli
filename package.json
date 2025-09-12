@@ -1,0 +1,69 @@
+{
+  "name": "psce",
+  "version": "1.0.0",
+  "description": "Pirichain Smart Contract Engine - CLI tool for blockchain development",
+  "main": "bin/psce.js",
+  "bin": {
+    "psce": "bin/psce.js"
+  },
+  "scripts": {
+    "start": "node bin/psce.js",
+    "test": "node bin/psce.js --help && echo CLI syntax check passed",
+    "prepublishOnly": "npm run test",
+    "postinstall": "node -e \"console.log('\\n🎉 PSCE CLI installed successfully!\\n📚 Run: psce --help\\n')\""
+  },
+  "keywords": [
+    "pirichain",
+    "smart-contracts",
+    "blockchain",
+    "cli",
+    "psce",
+    "scenario",
+    "wallet",
+    "address",
+    "network",
+    "crypto"
+  ],
+  "author": {
+    "name": "Pirichain Team",
+    "email": "info@pirichain.com",
+    "url": "https://pirichain.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@scure/base": "^2.0.0",
+    "bip39": "^3.1.0",
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "elliptic": "^6.5.7",
+    "fs-extra": "^11.2.0",
+    "keytar": "^7.9.0",
+    "mongo-sanitize": "^1.1.0",
+    "ripemd160": "^2.0.2",
+    "sha256": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pirichain/psce-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pirichain/psce-cli/issues"
+  },
+  "homepage": "https://github.com/pirichain/psce-cli#readme",
+  "files": [
+    "bin/",
+    "commands/",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": true,
+  "psce": {
+    "workspaceDir": "./psce-workspace",
+    "configFile": "psce.json",
+    "autoWatch": true
+  }
+}

@@ -1,0 +1,53 @@
+# Development files
+.github/
+.vscode/
+.idea/
+*.md
+!README.md
+
+# Test files and folders
+test-workspace/
+psce-workspace/
+*test*.js
+spec/
+__tests__/
+
+# Git
+.git/
+.gitignore
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env*
+
+# NPM and package files
+.npm
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Temporary
+.tmp/
+temp/
+
+# Coverage
+coverage/
+.nyc_output
+
+# IDE files
+*.swp
+*.swo
