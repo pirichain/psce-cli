@@ -1,6 +1,6 @@
 {
   "name": "psce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pirichain Smart Contract Engine - CLI tool for blockchain development",
   "main": "bin/psce.js",
   "bin": {
@@ -60,10 +60,5 @@
     "README.md",
     "LICENSE"
   ],
-  "preferGlobal": true,
-  "psce": {
-    "workspaceDir": "./psce-workspace",
-    "configFile": "psce.json",
-    "autoWatch": true
-  }
+  "preferGlobal": true
 }
