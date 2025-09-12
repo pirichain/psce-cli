@@ -7,13 +7,13 @@ A command-line interface for **Pirichain Smart Contract Engine (PSCE)**. Create,
 ### Global Installation
 
 ```bash
-npm install -g psce-cli
+npm install -g psce
 ```
 
 ### Using npx
 
 ```bash
-npx psce-cli new my-workspace
+npx psce new my-workspace
 ```
 
 ## Quick Start
