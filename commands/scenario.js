@@ -440,8 +440,8 @@ const test = {
     // TODO: Implement active address/private key retrieval
     // May require master password for private key access
     return {
-      address: "0x1234567890123456789012345678901234567890",
-      privateKey: "your-private-key-here"
+      address: "<address>",
+      privateKey: "<your-private-key-here>"
     };
   }
 };

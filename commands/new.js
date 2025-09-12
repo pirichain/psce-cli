@@ -70,7 +70,9 @@ async function createPsceWorkspace(projectName) {
   console.log(chalk.gray("  psce scenario add <name>"));
   console.log(chalk.gray("  psce test <scenario-name>"));
   console.log(
-    chalk.gray("  psce deploy <scenario-name> --network=<testnet|mainnet>")
+    chalk.gray(
+      "  psce deploy <scenario-name> --network=<testnet|mainnet|custom>"
+    )
   );
 }
 

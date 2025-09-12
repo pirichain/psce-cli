@@ -18,7 +18,7 @@ function registerNetworkCommand(program) {
           console.log(chalk.red("❌ Both --name and --url are required"));
           console.log(
             chalk.gray(
-              "Usage: psce network add --name mainnet --url https://api.pirichain.com"
+              "Usage: psce network add --name mainnet --url https://core.pirichain.com"
             )
           );
           return;

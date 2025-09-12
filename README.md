@@ -23,16 +23,20 @@ npx psce new my-workspace
 psce new my-workspace
 cd my-workspace
 
-# Add a new scenario
-psce scenario add payment --tags "finance,payment" --network https://testnet.pirichain.com
-
-# Manage networks
+# Add and set network
 psce network add --name testnet --url https://testnet.pirichain.com
 psce network set testnet
 
+# Generate and set address
+psce address generate --name wallet1
+psce address set wallet1
+
+# Add a new scenario
+psce scenario add payment --tags "finance,payment" --network https://testnet.pirichain.com
+
 # Test your scenario
 psce test payment -m init
-psce test token -m transfer -p "100,TZ123abc" -n testnet
+psce test payment -m transfer -p "100,TZ123abc"
 ```
 
 ## Commands
@@ -42,36 +46,6 @@ psce test token -m transfer -p "100,TZ123abc" -n testnet
 ```bash
 # Create new workspace
 psce new <workspace-name>
-```
-
-### Testing
-
-```bash
-# Test scenario methods
-psce test <scenario> -m <method> [options]
-  -m, --method <method>    Method name to execute (required)
-  -p, --params <params>    Method parameters (comma-separated)
-  -n, --network <network>  Network name (uses current if not specified)
-  -a, --address <address>  Address name (uses current if not specified)
-
-# Examples
-psce test payment -m init
-psce test token -m transfer -p "100,TZ123abc"
-psce test nft -m mint -n mainnet -a wallet1
-```
-
-### Scenario Management
-
-```bash
-# Add new scenario
-psce scenario add [options]
-  --name <name>       Scenario name
-  --tags <tags>       Comma-separated tags
-  --network <url>     Target network URL
-
-# Examples
-psce scenario add payment
-psce scenario add --name nft-market --tags "nft,marketplace" --network https://mainnet.pirichain.com
 ```
 
 ### Network Management
@@ -89,6 +63,52 @@ psce network|n remove <name>                    # Remove network
 psce n add --name mainnet --url https://mainnet.pirichain.com
 psce n set mainnet
 psce n current
+```
+
+### Address Management
+
+```bash
+# Address commands (can use 'a' as shorthand)
+psce address|a generate --name <name>           # Generate new address
+psce address|a list                             # List all addresses
+psce address|a set <name>                       # Set active address
+psce address|a current                          # Show current address
+psce address|a remove <name>                    # Remove address
+
+# Examples
+psce a generate --name wallet1
+psce a set wallet1
+psce a current
+```
+
+### Scenario Management
+
+```bash
+# Add new scenario
+psce scenario add [options]
+  --name <name>       Scenario name
+  --tags <tags>       Comma-separated tags
+  --network <url>     Target network URL
+
+# Examples
+psce scenario add payment
+psce scenario add --name nft-market --tags "nft,marketplace" --network https://mainnet.pirichain.com
+```
+
+### Testing
+
+```bash
+# Test scenario methods
+psce test <scenario> -m <method> [options]
+  -m, --method <method>    Method name to execute (required)
+  -p, --params <params>    Method parameters (comma-separated)
+  -n, --network <network>  Network name (uses current if not specified)
+  -a, --address <address>  Address name (uses current if not specified)
+
+# Examples
+psce test payment -m init
+psce test token -m transfer -p "100,TZ123abc"
+psce test nft -m mint -n mainnet -a wallet1
 ```
 
 ## Generated Workspace Structure
@@ -152,6 +172,7 @@ Test responses: `{error: number, returnedData: any}`
 - 🔗 **Workspace Creation**: Generate complete PSCE development environments
 - 📝 **Scenario Management**: Create scenarios with customizable tags and networks
 - 🌐 **Network Management**: Add, test, and manage multiple blockchain networks
+- 👤 **Address Management**: Generate, manage, and secure blockchain addresses
 - 🧪 **Integrated Testing**: Built-in test framework using real PSCE API endpoints
 - ⚡ **Dynamic Configuration**: Auto-detects workspace type and structure
 - 🎯 **VS Code Ready**: Works with PSCE VS Code extension
@@ -187,10 +208,19 @@ psce-cli/
 ├── commands/
 │   ├── new.js              # Workspace creation
 │   ├── scenario.js         # Scenario management
-│   └── network.js          # Network management
+│   ├── network.js          # Network management
+│   ├── address.js          # Address management
+│   └── test.js             # Testing framework
 ├── lib/
 │   ├── utils.js            # Utility functions
-│   └── security-manager.js # Network/security management
+│   ├── security-manager.js # Network/security management
+│   └── wallet/             # Wallet functionality
+│       ├── createNewAddress.js  # Address generation
+│       ├── getMnemonic.js       # Mnemonic handling
+│       ├── index.js             # Wallet exports
+│       ├── isValidAddress.js    # Address validation
+│       ├── rescuePrivateKey.js  # Key recovery
+│       └── utility.js           # Wallet utilities
 └── package.json
 ```
 
@@ -203,22 +233,27 @@ psce-cli/
 psce new my-dapp
 cd my-dapp
 
-# Add networks
-psce n add --name testnet --url https://testnet.pirichain.com
-psce n add --name mainnet --url https://mainnet.pirichain.com
-psce n set testnet
+# Add and set network
+psce n add --name PirichainTestnet --url https://testnet.pirichain.com
+psce n add --name PirichainMainnet --url https://core.pirichain.com
+
+# You can also add custom or local networks
+psce n add --name local --url http://localhost:8080
+psce n add --name custom --url https://my-custom-network.com
+
+# Set active network
+psce n set PirichainTestnet
+
+# Generate and set active address
+psce a generate --name wallet1
+psce a set wallet1
 
 # Create scenarios
 psce scenario add --name token --tags "token,erc20" --network https://testnet.pirichain.com
-psce scenario add --name nft --tags "nft,collectibles" --network https://mainnet.pirichain.com
+psce scenario add --name nft --tags "nft,collectibles" --network https://core.pirichain.com
 
 # Test scenarios
 psce test token -m init
 psce test token -m transfer -p "100,TZ123abc"
 psce test nft -m mint -n mainnet -a wallet1
 ```
-
-## Networks
-
-- **Testnet**: https://testnet.pirichain.com
-- **Mainnet**: https://mainnet.pirichain.com

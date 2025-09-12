@@ -7,7 +7,7 @@ function registerAddressCommand(program) {
   const addressCommand = program
     .command("address")
     .alias("a")
-    .description("Address management for Pirichain");
+    .description("Address management for Pirichain Smart Scenarios");
 
   addressCommand
     .command("generate")
