@@ -117,6 +117,18 @@ function registerAddressCommand(program) {
         process.exit(1);
       }
     });
+
+  addressCommand
+    .command("rename <oldName> <newName>")
+    .description("Rename a saved address")
+    .action(async (oldName, newName) => {
+      try {
+        await renameAddress(oldName, newName);
+      } catch (error) {
+        console.error(chalk.red("Rename address failed:"), error.message);
+        process.exit(1);
+      }
+    });
 }
 
 async function generateAddress(options) {
@@ -812,6 +824,117 @@ async function removeAddress(identifier, options) {
     );
   } catch (error) {
     console.log(chalk.red("❌ Failed to remove address:"), error.message);
+  }
+}
+
+async function renameAddress(oldName, newName) {
+  console.log(chalk.blue.bold("🏷️  Renaming Address"));
+  console.log();
+
+  const security = new PSCESecurityManager();
+
+  // Validate new name
+  if (!newName || !newName.trim()) {
+    console.log(chalk.red("❌ New name cannot be empty"));
+    return;
+  }
+
+  newName = newName.trim();
+
+  // Check if new name already exists
+  const networks = await security.getNetworks();
+  const existingAddresses = Object.keys(networks).filter((key) =>
+    key.startsWith("address:")
+  );
+
+  const existingNames = [];
+  for (const key of existingAddresses) {
+    const metadata = networks[key];
+    if (metadata && metadata.name === newName) {
+      console.log(chalk.red(`❌ Address name '${newName}' already exists`));
+      console.log(chalk.gray("Choose a different name"));
+      return;
+    }
+    existingNames.push(metadata?.name);
+  }
+
+  // Find address by old name
+  let targetAddress = null;
+  let targetMetadata = null;
+
+  for (const key of existingAddresses) {
+    const metadata = networks[key];
+    if (metadata && metadata.name === oldName) {
+      targetAddress = key.replace("address:", "");
+      targetMetadata = metadata;
+      break;
+    }
+  }
+
+  if (!targetAddress) {
+    console.log(chalk.red(`❌ Address with name '${oldName}' not found`));
+    console.log(chalk.gray("Available addresses:"));
+    existingNames.forEach((name) => {
+      if (name) console.log(chalk.gray(`  - ${name}`));
+    });
+    return;
+  }
+
+  // Show current info
+  console.log(chalk.cyan("📍 Current Address Information:"));
+  console.log(chalk.gray(`   Name: ${targetMetadata.name}`));
+  console.log(chalk.gray(`   Address: ${targetAddress}`));
+  console.log(
+    chalk.gray(
+      `   Network: ${targetMetadata.network} (${targetMetadata.prefix})`
+    )
+  );
+  console.log(
+    chalk.gray(
+      `   Created: ${new Date(targetMetadata.createdAt).toLocaleString()}`
+    )
+  );
+  console.log();
+
+  // Get confirmation
+  const proceed = await askConfirmation(`Rename '${oldName}' to '${newName}'?`);
+
+  if (!proceed) {
+    console.log(chalk.yellow("⚠️  Rename cancelled"));
+    return;
+  }
+
+  try {
+    // Update metadata with new name
+    const updatedMetadata = {
+      ...targetMetadata,
+      name: newName,
+      renamedAt: new Date().toISOString(),
+      previousName: oldName,
+    };
+
+    // Store updated metadata
+    await security.storeNetwork(`address:${targetAddress}`, updatedMetadata);
+
+    console.log();
+    console.log(chalk.green("✅ Address renamed successfully"));
+    console.log(chalk.gray("Previous name:"), chalk.strikethrough(oldName));
+    console.log(chalk.gray("New name:"), chalk.white.bold(newName));
+    console.log(chalk.gray("Address:"), targetAddress);
+
+    // If this was the active address, update the reference
+    const activeAddress = await security.getActiveAddress();
+    if (activeAddress === targetAddress) {
+      console.log();
+      console.log(chalk.blue("🎯 Updated active address reference"));
+    }
+
+    console.log();
+    console.log(chalk.blue("💡 Next steps:"));
+    console.log(chalk.gray(`  • Set as active: psce address set ${newName}`));
+    console.log(chalk.gray("  • View all addresses: psce address list"));
+  } catch (error) {
+    console.log(chalk.red("❌ Failed to rename address:"), error.message);
   }
 }
 

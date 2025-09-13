@@ -76,12 +76,14 @@ psce address|a generate [--save <name>]         # Generate new address (auto-sav
 psce address|a list                             # List all addresses
 psce address|a set <name>                       # Set active address
 psce address|a current                          # Show current address
+psce address|a rename <oldName> <newName>       # Rename address
 psce address|a remove <name>                    # Remove address
 
 # Examples
 psce a generate                                 # Auto-saves as temp-1699123456
 psce a generate --save wallet1                  # Saves as wallet1
-psce a set wallet1
+psce a rename temp-1699123456 mainwallet        # Rename temp to permanent name
+psce a set mainwallet
 psce a current
 ```
 
