@@ -16,7 +16,10 @@ function registerAddressCommand(program) {
       "--network <name>",
       "Network to generate address for (uses active network if not specified)"
     )
-    .option("--save [name]", "Save the address with optional name")
+    .option(
+      "--save [name]",
+      "Give address a custom name (auto-names as temp-* if not specified)"
+    )
     .option(
       "--format <format>",
       "Output format (table, json, compact)",
@@ -216,12 +219,14 @@ async function generateAddress(options) {
     }
   }
 
-  // Save if requested
-  if (options.save !== undefined) {
-    console.log();
-    console.log(chalk.yellow("💾 Saving address..."));
+  // Auto-save address (always save now)
+  console.log();
+  console.log(chalk.yellow("💾 Saving address..."));
 
-    let addressName = options.save;
+  let addressName;
+  if (options.save !== undefined) {
+    // User specified --save option
+    addressName = options.save;
     if (typeof options.save === "boolean" || !addressName) {
       // Prompt for name
       try {
@@ -234,25 +239,43 @@ async function generateAddress(options) {
         return;
       }
     }
+  } else {
+    // Auto-generate temp name
+    const timestamp = Date.now();
+    addressName = `temp-${timestamp}`;
+    console.log(
+      chalk.gray(`🏷️  Auto-naming as '${addressName}' (temporary address)`)
+    );
+  }
 
-    try {
-      await security.storeWallet(address, privateKey);
-      // Store address metadata
-      const addressMetadata = {
-        name: addressName,
-        address: address,
-        network: networkName,
-        prefix: networkPrefix,
-        createdAt: new Date().toISOString(),
-        ...(mnemonic && { hasMnemonic: true }),
-      };
+  try {
+    await security.storeWallet(address, privateKey);
+    // Store address metadata
+    const addressMetadata = {
+      name: addressName,
+      address: address,
+      network: networkName,
+      prefix: networkPrefix,
+      createdAt: new Date().toISOString(),
+      isTemporary: !options.save, // Mark if it's auto-generated temp
+      ...(mnemonic && { hasMnemonic: true }),
+    };
 
-      await security.storeNetwork(`address:${address}`, addressMetadata);
+    await security.storeNetwork(`address:${address}`, addressMetadata);
 
+    if (options.save !== undefined) {
       console.log(chalk.green(`✅ Address saved as '${addressName}'`));
-    } catch (error) {
-      console.log(chalk.red("❌ Failed to save address:"), error.message);
+    } else {
+      console.log(
+        chalk.green(`✅ Address saved as temporary '${addressName}'`)
+      );
+      console.log(
+        chalk.gray("💡 Use --save <name> to give it a permanent name")
+      );
     }
+  } catch (error) {
+    console.log(chalk.red("❌ Failed to save address:"), error.message);
+    return;
   }
 
   console.log();

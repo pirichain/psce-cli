@@ -2,6 +2,11 @@
 
 A command-line interface for **Pirichain Smart Scenarios (PSCE)**. Create, manage, and test blockchain development workspaces with smart contract scenarios.
 
+# README'de NPM badge ekle (backlink için)
+
+[![npm version](https://badge.fury.io/js/psce.svg)](https://badge.fury.io/js/psce)
+[![npm downloads](https://img.shields.io/npm/dm/psce.svg)](https://npmjs.org/package/psce)
+
 ## Installation
 
 ### Global Installation
@@ -28,7 +33,7 @@ psce network add --name testnet --url https://testnet.pirichain.com
 psce network set testnet
 
 # Generate and set address
-psce address generate --name wallet1
+psce address generate --save wallet1
 psce address set wallet1
 
 # Add a new scenario
@@ -69,14 +74,15 @@ psce n current
 
 ```bash
 # Address commands (can use 'a' as shorthand)
-psce address|a generate --name <name>           # Generate new address
+psce address|a generate [--save <name>]         # Generate new address (auto-saves as temp-* or custom name)
 psce address|a list                             # List all addresses
 psce address|a set <name>                       # Set active address
 psce address|a current                          # Show current address
 psce address|a remove <name>                    # Remove address
 
 # Examples
-psce a generate --name wallet1
+psce a generate                                 # Auto-saves as temp-1699123456
+psce a generate --save wallet1                  # Saves as wallet1
 psce a set wallet1
 psce a current
 ```
@@ -172,7 +178,7 @@ Test responses: `{error: number, returnedData: any}`
 - 🔗 **Workspace Creation**: Generate complete PSCE development environments
 - 📝 **Scenario Management**: Create scenarios with customizable tags and networks
 - 🌐 **Network Management**: Add, test, and manage multiple blockchain networks
-- 👤 **Address Management**: Generate, manage, and secure blockchain addresses
+- 👤 **Address Management**: Generate, manage, and secure blockchain addresses with auto-save functionality
 - 🧪 **Integrated Testing**: Built-in test framework using real PSCE API endpoints
 - ⚡ **Dynamic Configuration**: Auto-detects workspace type and structure
 - 🎯 **VS Code Ready**: Works with PSCE VS Code extension
@@ -245,7 +251,7 @@ psce n add --name custom --url https://my-custom-network.com
 psce n set PirichainTestnet
 
 # Generate and set active address
-psce a generate --name wallet1
+psce a generate --save wallet1
 psce a set wallet1
 
 # Create scenarios
