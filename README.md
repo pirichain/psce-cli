@@ -2,8 +2,6 @@
 
 A command-line interface for **Pirichain Smart Scenarios (PSCE)**. Create, manage, and test blockchain development workspaces with smart contract scenarios.
 
-# README'de NPM badge ekle (backlink için)
-
 [![npm version](https://badge.fury.io/js/psce.svg)](https://badge.fury.io/js/psce)
 [![npm downloads](https://img.shields.io/npm/dm/psce.svg)](https://npmjs.org/package/psce)
 
