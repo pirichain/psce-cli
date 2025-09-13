@@ -17,7 +17,7 @@ function registerAddressCommand(program) {
       "Network to generate address for (uses active network if not specified)"
     )
     .option(
-      "--save [name]",
+      "--name [name]",
       "Give address a custom name (auto-names as temp-* if not specified)"
     )
     .option(
@@ -236,10 +236,10 @@ async function generateAddress(options) {
   console.log(chalk.yellow("💾 Saving address..."));
 
   let addressName;
-  if (options.save !== undefined) {
-    // User specified --save option
-    addressName = options.save;
-    if (typeof options.save === "boolean" || !addressName) {
+  if (options.name !== undefined) {
+    // User specified --name option
+    addressName = options.name;
+    if (typeof options.name === "boolean" || !addressName) {
       // Prompt for name
       try {
         addressName = await askInput(
@@ -269,20 +269,20 @@ async function generateAddress(options) {
       network: networkName,
       prefix: networkPrefix,
       createdAt: new Date().toISOString(),
-      isTemporary: !options.save, // Mark if it's auto-generated temp
+      isTemporary: !options.name, // Mark if it's auto-generated temp
       ...(mnemonic && { hasMnemonic: true }),
     };
 
     await security.storeNetwork(`address:${address}`, addressMetadata);
 
-    if (options.save !== undefined) {
+    if (options.name !== undefined) {
       console.log(chalk.green(`✅ Address saved as '${addressName}'`));
     } else {
       console.log(
         chalk.green(`✅ Address saved as temporary '${addressName}'`)
       );
       console.log(
-        chalk.gray("💡 Use --save <name> to give it a permanent name")
+        chalk.gray("💡 Use --name <name> to give it a permanent name")
       );
     }
   } catch (error) {
@@ -495,7 +495,7 @@ async function listAddresses(options) {
   if (Object.keys(addressMetadata).length === 0) {
     console.log(chalk.gray("No addresses saved."));
     console.log(
-      chalk.gray("Generate an address with: psce address generate --save")
+      chalk.gray("Generate an address with: psce address generate --name")
     );
     console.log(chalk.gray("Import an address with: psce address import"));
     return;
