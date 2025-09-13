@@ -1,8 +1,6 @@
-# PSCE CLI
+![PSCE Logo](https://static.pirichain.com/logo/psce_cli.svg)
 
 A command-line interface for **Pirichain Smart Scenarios (PSCE)**. Create, manage, and test blockchain development workspaces with smart contract scenarios.
-
-![PSCE Logo](https://static.pirichain.com/logo/pirichain_psce.svg)
 
 [![npm version](https://badge.fury.io/js/psce.svg?icon=si%3Anpm)](https://badge.fury.io/js/psce)
 [![npm downloads](https://img.shields.io/npm/dm/psce.svg)](https://npmjs.org/package/psce)
@@ -35,6 +33,9 @@ psce network set testnet
 # Generate and set address
 psce address generate --name wallet1
 psce address set wallet1
+
+# OR import existing wallet from mnemonic
+# psce address import --name my-wallet --network testnet
 
 # Add a new scenario
 psce scenario add payment --tags "finance,payment" --network https://testnet.pirichain.com
@@ -75,6 +76,8 @@ psce n current
 ```bash
 # Address commands (can use 'a' as shorthand)
 psce address|a generate [--name <name>]         # Generate new address (auto-saves as temp-* or custom name)
+psce address|a import [--name <name>]           # Import address from 24-word mnemonic
+psce address|a validate <address>               # Validate a Pirichain address
 psce address|a list                             # List all addresses
 psce address|a set <name>                       # Set active address
 psce address|a current                          # Show current address
@@ -84,6 +87,9 @@ psce address|a remove <name>                    # Remove address
 # Examples
 psce a generate                                 # Auto-saves as temp-1699123456
 psce a generate --name wallet1                  # Saves as wallet1
+psce a import --name imported-wallet            # Import from mnemonic (will prompt securely)
+psce a import --mnemonic "word1 word2 ... word24" --name my-wallet  # Import with mnemonic
+psce a validate TZ123abc...                     # Check if address is valid
 psce a rename temp-1699123456 mainwallet        # Rename temp to permanent name
 psce a set mainwallet
 psce a current
@@ -180,7 +186,7 @@ Test responses: `{error: number, returnedData: any}`
 - 🔗 **Workspace Creation**: Generate complete PSCE development environments
 - 📝 **Scenario Management**: Create scenarios with customizable tags and networks
 - 🌐 **Network Management**: Add, test, and manage multiple blockchain networks
-- 👤 **Address Management**: Generate, manage, and secure blockchain addresses with auto-save functionality
+- 👤 **Address Management**: Generate, import from mnemonic, manage, and secure blockchain addresses with auto-save functionality
 - 🧪 **Integrated Testing**: Built-in test framework using real PSCE API endpoints
 - ⚡ **Dynamic Configuration**: Auto-detects workspace type and structure
 - 🎯 **VS Code Ready**: Works with PSCE VS Code extension
@@ -255,6 +261,10 @@ psce n set PirichainTestnet
 # Generate and set active address
 psce a generate --name wallet1
 psce a set wallet1
+
+# OR import existing address from mnemonic
+# psce a import --name imported-wallet --network PirichainTestnet
+# psce a set imported-wallet
 
 # Create scenarios
 psce scenario add --name token --tags "token,erc20" --network https://testnet.pirichain.com
