@@ -207,8 +207,16 @@ async function addNetwork(name, url) {
 
 async function listNetworks(options = {}) {
   const security = new PSCESecurityManager();
-  const networks = await security.getAllNetworks();
+  const allData = await security.getAllNetworks();
   const activeNetwork = await security.getActiveNetwork();
+
+  // Filter out address entries - only keep actual networks
+  const networks = {};
+  Object.entries(allData).forEach(([key, data]) => {
+    if (!key.startsWith("address:")) {
+      networks[key] = data;
+    }
+  });
 
   if (Object.keys(networks).length === 0) {
     if (options.json) {
