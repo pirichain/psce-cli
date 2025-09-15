@@ -20,11 +20,8 @@ function registerAddressCommand(program) {
       "--name [name]",
       "Give address a custom name (auto-names as temp-* if not specified)"
     )
-    .option(
-      "--format <format>",
-      "Output format (table, json, compact)",
-      "table"
-    )
+    .option("--json", "Output in JSON format")
+    .option("--compact", "Output in compact format")
     .action(async (options) => {
       try {
         await generateAddress(options);
@@ -71,7 +68,7 @@ function registerAddressCommand(program) {
     .command("list")
     .description("List saved addresses")
     .option("--network <name>", "Filter by network")
-    .option("--format <format>", "Output format (table, json)", "table")
+    .option("--json", "Output in JSON format")
     .action(async (options) => {
       try {
         await listAddresses(options);
@@ -203,7 +200,7 @@ async function generateAddress(options) {
   console.log(chalk.green("✅ Address generated successfully!"));
   console.log();
 
-  if (options.format === "json") {
+  if (options.json) {
     const result = {
       address: address,
       network: networkName,
@@ -211,7 +208,7 @@ async function generateAddress(options) {
       generated: new Date().toISOString(),
     };
     console.log(JSON.stringify(result, null, 2));
-  } else if (options.format === "compact") {
+  } else if (options.compact) {
     console.log(`${address} (${networkName})`);
   } else {
     // Table format - SECURE
@@ -516,7 +513,7 @@ async function listAddresses(options) {
     }
   }
 
-  if (options.format === "json") {
+  if (options.json) {
     const result = Object.fromEntries(addresses);
     // Add active address marker in JSON
     if (activeAddress && result[activeAddress]) {

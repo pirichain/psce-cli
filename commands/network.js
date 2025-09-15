@@ -39,9 +39,10 @@ function registerNetworkCommand(program) {
   networkCommand
     .command("list")
     .description("List available networks")
-    .action(async () => {
+    .option("--json", "Output in JSON format")
+    .action(async (options) => {
       try {
-        await listNetworks();
+        await listNetworks(options);
       } catch (error) {
         console.error(chalk.red("Network list failed:"), error.message);
         process.exit(1);
@@ -204,37 +205,54 @@ async function addNetwork(name, url) {
   }
 }
 
-async function listNetworks() {
-  console.log(chalk.blue.bold("🌐 Available Networks"));
-  console.log();
-
+async function listNetworks(options = {}) {
   const security = new PSCESecurityManager();
   const networks = await security.getAllNetworks();
   const activeNetwork = await security.getActiveNetwork();
 
   if (Object.keys(networks).length === 0) {
-    console.log(chalk.gray("No networks configured."));
-    console.log(
-      chalk.gray(
-        "Add a network with: psce network add --name <name> --url <url>"
-      )
-    );
+    if (options.json) {
+      console.log(JSON.stringify({}, null, 2));
+    } else {
+      console.log(chalk.blue.bold("🌐 Available Networks"));
+      console.log();
+      console.log(chalk.gray("No networks configured."));
+      console.log(
+        chalk.gray(
+          "Add a network with: psce network add --name <name> --url <url>"
+        )
+      );
+    }
     return;
   }
 
-  Object.entries(networks).forEach(([name, data]) => {
-    const isActive = name === activeNetwork;
-    const statusIcon = isActive ? chalk.green("●") : chalk.gray("○");
-    const nameColor = isActive ? chalk.green.bold : chalk.white;
-
-    console.log(`${statusIcon} ${nameColor(name)}`);
-    console.log(chalk.gray(`   URL: ${data.url}`));
-    console.log(chalk.gray(`   Prefix: ${data.prefix}`));
-    console.log(
-      chalk.gray(`   Added: ${new Date(data.addedAt).toLocaleDateString()}`)
-    );
+  if (options.json) {
+    const result = {};
+    Object.entries(networks).forEach(([name, data]) => {
+      result[name] = {
+        ...data,
+        isActive: name === activeNetwork,
+      };
+    });
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    console.log(chalk.blue.bold("🌐 Available Networks"));
     console.log();
-  });
+
+    Object.entries(networks).forEach(([name, data]) => {
+      const isActive = name === activeNetwork;
+      const statusIcon = isActive ? chalk.green("●") : chalk.gray("○");
+      const nameColor = isActive ? chalk.green.bold : chalk.white;
+
+      console.log(`${statusIcon} ${nameColor(name)}`);
+      console.log(chalk.gray(`   URL: ${data.url}`));
+      console.log(chalk.gray(`   Prefix: ${data.prefix}`));
+      console.log(
+        chalk.gray(`   Added: ${new Date(data.addedAt).toLocaleDateString()}`)
+      );
+      console.log();
+    });
+  }
 }
 
 async function setActiveNetwork(name) {

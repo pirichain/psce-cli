@@ -59,7 +59,7 @@ psce new <workspace-name>
 ```bash
 # Network commands (can use 'n' as shorthand)
 psce network|n add --name <name> --url <url>    # Add network
-psce network|n list                             # List networks
+psce network|n list [--json]                   # List networks
 psce network|n set <name>                       # Set active network
 psce network|n current                          # Show current network
 psce network|n test <name>                      # Test network connection
@@ -67,6 +67,8 @@ psce network|n remove <name>                    # Remove network
 
 # Examples
 psce n add --name mainnet --url https://mainnet.pirichain.com
+psce n list                                     # Show networks in table format
+psce n list --json                              # Show networks in JSON format
 psce n set mainnet
 psce n current
 ```
@@ -78,7 +80,7 @@ psce n current
 psce address|a generate [--name <name>]         # Generate new address (auto-saves as temp-* or custom name)
 psce address|a import [--name <name>]           # Import address from 24-word mnemonic
 psce address|a validate <address>               # Validate a Pirichain address
-psce address|a list                             # List all addresses
+psce address|a list [--json]                   # List all addresses
 psce address|a set <name>                       # Set active address
 psce address|a current                          # Show current address
 psce address|a rename <oldName> <newName>       # Rename address
@@ -87,9 +89,12 @@ psce address|a remove <name>                    # Remove address
 # Examples
 psce a generate                                 # Auto-saves as temp-1699123456
 psce a generate --name wallet1                  # Saves as wallet1
+psce a generate --json                          # Output in JSON format
 psce a import --name imported-wallet            # Import from mnemonic (will prompt securely)
 psce a import --mnemonic "word1 word2 ... word24" --name my-wallet  # Import with mnemonic
 psce a validate TZ123abc...                     # Check if address is valid
+psce a list                                     # Show addresses in table format
+psce a list --json                              # Show addresses in JSON format
 psce a rename temp-1699123456 mainwallet        # Rename temp to permanent name
 psce a set mainwallet
 psce a current
