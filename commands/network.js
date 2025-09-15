@@ -265,7 +265,15 @@ async function listNetworks(options = {}) {
 
 async function setActiveNetwork(name) {
   const security = new PSCESecurityManager();
-  const networks = await security.getAllNetworks();
+  const allData = await security.getAllNetworks();
+
+  // Filter out address entries - only keep actual networks
+  const networks = {};
+  Object.entries(allData).forEach(([key, data]) => {
+    if (!key.startsWith("address:")) {
+      networks[key] = data;
+    }
+  });
 
   if (!networks[name]) {
     console.log(chalk.red(`❌ Network '${name}' not found`));
@@ -295,7 +303,16 @@ async function showCurrentNetwork() {
     return;
   }
 
-  const networks = await security.getAllNetworks();
+  const allData = await security.getAllNetworks();
+
+  // Filter out address entries - only keep actual networks
+  const networks = {};
+  Object.entries(allData).forEach(([key, data]) => {
+    if (!key.startsWith("address:")) {
+      networks[key] = data;
+    }
+  });
+
   const networkData = networks[activeNetwork];
 
   console.log(chalk.blue.bold("🌐 Current Active Network"));
@@ -312,7 +329,15 @@ async function showCurrentNetwork() {
 
 async function testNetwork(name) {
   const security = new PSCESecurityManager();
-  const networks = await security.getAllNetworks();
+  const allData = await security.getAllNetworks();
+
+  // Filter out address entries - only keep actual networks
+  const networks = {};
+  Object.entries(allData).forEach(([key, data]) => {
+    if (!key.startsWith("address:")) {
+      networks[key] = data;
+    }
+  });
 
   if (!networks[name]) {
     console.log(chalk.red(`❌ Network '${name}' not found`));
@@ -362,10 +387,22 @@ async function testNetwork(name) {
 
 async function removeNetwork(name) {
   const security = new PSCESecurityManager();
-  const networks = await security.getAllNetworks();
+  const allData = await security.getAllNetworks();
+
+  // Filter out address entries - only keep actual networks
+  const networks = {};
+  Object.entries(allData).forEach(([key, data]) => {
+    if (!key.startsWith("address:")) {
+      networks[key] = data;
+    }
+  });
 
   if (!networks[name]) {
     console.log(chalk.red(`❌ Network '${name}' not found`));
+    console.log(chalk.gray("Available networks:"));
+    Object.keys(networks).forEach((netName) => {
+      console.log(chalk.gray(`  - ${netName}`));
+    });
     return;
   }
 
