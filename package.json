@@ -1,6 +1,6 @@
 {
   "name": "psce",
-  "version": "1.1.11",
+  "version": "1.1.13",
   "description": "Pirichain Smart Scenarios - CLI tool for blockchain development",
   "main": "bin/psce.js",
   "bin": {
@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node bin/psce.js",
     "test": "node bin/psce.js --help && echo CLI syntax check passed",
+    "preinstall": "node lib/check-requirements.js",
     "prepublishOnly": "npm run test",
     "postinstall": "node -e \"console.log('\\n🎉 PSCE CLI installed successfully!\\n📚 Run: psce --help\\n')\""
   },

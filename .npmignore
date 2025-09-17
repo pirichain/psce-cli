@@ -51,3 +51,5 @@ coverage/
 # IDE files
 *.swp
 *.swo
+
+cf/
