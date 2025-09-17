@@ -1,6 +1,6 @@
 {
   "name": "psce",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "Pirichain Smart Scenarios - CLI tool for blockchain development",
   "main": "bin/psce.js",
   "bin": {
