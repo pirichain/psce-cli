@@ -25,6 +25,7 @@ function registerAddressCommand(program) {
     .action(async (options) => {
       try {
         await generateAddress(options);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Address generation failed:"), error.message);
         process.exit(1);
@@ -46,6 +47,7 @@ function registerAddressCommand(program) {
     .action(async (options) => {
       try {
         await importAddress(options);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Address import failed:"), error.message);
         process.exit(1);
@@ -58,6 +60,7 @@ function registerAddressCommand(program) {
     .action(async (address) => {
       try {
         await validateAddress(address);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Address validation failed:"), error.message);
         process.exit(1);
@@ -72,6 +75,7 @@ function registerAddressCommand(program) {
     .action(async (options) => {
       try {
         await listAddresses(options);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Address list failed:"), error.message);
         process.exit(1);
@@ -84,6 +88,7 @@ function registerAddressCommand(program) {
     .action(async (address) => {
       try {
         await setActiveAddress(address);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Set active address failed:"), error.message);
         process.exit(1);
@@ -96,6 +101,7 @@ function registerAddressCommand(program) {
     .action(async () => {
       try {
         await showCurrentAddress();
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Show current address failed:"), error.message);
         process.exit(1);
@@ -109,6 +115,7 @@ function registerAddressCommand(program) {
     .action(async (identifier, options) => {
       try {
         await removeAddress(identifier, options);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Remove address failed:"), error.message);
         process.exit(1);
@@ -121,6 +128,7 @@ function registerAddressCommand(program) {
     .action(async (oldName, newName) => {
       try {
         await renameAddress(oldName, newName);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Rename address failed:"), error.message);
         process.exit(1);

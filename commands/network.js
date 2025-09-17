@@ -30,6 +30,7 @@ function registerNetworkCommand(program) {
         console.log();
 
         await addNetwork(options.name, options.url);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network add failed:"), error.message);
         process.exit(1);
@@ -43,6 +44,7 @@ function registerNetworkCommand(program) {
     .action(async (options) => {
       try {
         await listNetworks(options);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network list failed:"), error.message);
         process.exit(1);
@@ -55,6 +57,7 @@ function registerNetworkCommand(program) {
     .action(async (name) => {
       try {
         await setActiveNetwork(name);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network set failed:"), error.message);
         process.exit(1);
@@ -67,6 +70,7 @@ function registerNetworkCommand(program) {
     .action(async () => {
       try {
         await showCurrentNetwork();
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network current failed:"), error.message);
         process.exit(1);
@@ -79,6 +83,7 @@ function registerNetworkCommand(program) {
     .action(async (name) => {
       try {
         await testNetwork(name);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network test failed:"), error.message);
         process.exit(1);
@@ -91,6 +96,7 @@ function registerNetworkCommand(program) {
     .action(async (name) => {
       try {
         await removeNetwork(name);
+        process.exit(0);
       } catch (error) {
         console.error(chalk.red("Network remove failed:"), error.message);
         process.exit(1);
